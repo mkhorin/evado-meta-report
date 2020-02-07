@@ -1,7 +1,5 @@
-# Evado report metadata
+# Evado Report Metadata
 
-## Evado application metadata processing component
+### Evado application metadata processing component
 
-### Evado Kit
-
-https://github.com/mkhorin/evado
+[Evado Kit](https://github.com/mkhorin/evado)
