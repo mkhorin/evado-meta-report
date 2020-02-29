@@ -54,7 +54,7 @@ module.exports = class Behavior extends Base {
         }
     }
 
-    static createBehaviors (model) {
+    static createModelBehaviors (model) {
         model.behaviors = [];
         if (model.report.behaviors) {
             for (const config of model.report.behaviors) {

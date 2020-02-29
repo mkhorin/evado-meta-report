@@ -29,7 +29,7 @@ module.exports = class DataModelQuery extends Base {
         return this;
     }
 
-    withListDefaults (value = true) {
+    withListData (value = true) {
         this._withAttrTitle = value;
         this._withCalc = value;
         this._withUsers = value;
