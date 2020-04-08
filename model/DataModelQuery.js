@@ -11,7 +11,7 @@ module.exports = class DataModelQuery extends Base {
         super(config);
         this._db = this.report.getDb();
         this._from = this.report.table;
-        this._order = this.report.getOrder();
+        this._order = this.report.order;
         this._raw = null;
     }
 
