@@ -5,24 +5,24 @@
 
 const Base = require('./Group');
 
-module.exports = class RootGroup extends Base {
+module.exports = class Grouping extends Base {
 
     init () {}
 
-    getAttrs () {
+    forceGetAttrs () {
         const list = [];
         for (const attr of this.report.attrs) {
-            if (!attr.data.group || !this.report.hasGroup(attr.data.group)) {
+            if (!attr.data.group || !this.getGroup(attr.data.group)) {
                 list.push(attr);
             }
         }
         return list;
     }
 
-    getGroups () {
+    forceGetGroups () {
         const list = [];
-        for (const group of Object.values(this.report.groups)) {
-            if (!this.report.hasGroup(group.data.parent)) {
+        for (const group of Object.values(this.report.grouping.groupMap)) {
+            if (!this.getGroup(group.data.parent)) {
                 list.push(group);
             }
         }

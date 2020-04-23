@@ -32,7 +32,6 @@ module.exports = class DataModelQuery extends Base {
     withListData (value = true) {
         this._withAttrTitle = value;
         this._withCalc = value;
-        this._withUsers = value;
         return this;
     }
 
@@ -56,17 +55,11 @@ module.exports = class DataModelQuery extends Base {
         return this;
     }
 
-    withUsers (value = true) {
-        this._withUsers = value;
-        return this;
-    }
-
     copyParams (query) {
         this._withCalc = query._withCalc;
         this._withTitle = query._withTitle;
         this._withAttrTitle = query._withAttrTitle;
-        this._withReadOnlyTitle = query._withReadOnlyTitle;        
-        this._withUsers = query._withUsers;
+        this._withReadOnlyTitle = query._withReadOnlyTitle;
         return this;
     }
 
@@ -98,7 +91,7 @@ module.exports = class DataModelQuery extends Base {
         if (this._withTitle) {
             await this.resolveTitle(models);
         }
-        if (this._withUsers && this.report.userAttrs.length) {
+        if (this.report.userAttrs.length) {
             await this.resolveUsers(models);
         }
         return this._index ? this.indexModels(models) : models;
@@ -123,7 +116,7 @@ module.exports = class DataModelQuery extends Base {
     }
 
     async resolveUsers (models) {
-        const ids = MetaHelper.getModelValueList(models, this.report.userAttrs);
+        const ids = MetaHelper.getModelValues(models, this.report.userAttrs);
         if (ids.length) {
             const user = this.getMeta().spawnUser();
             const users = await user.findById(ids).indexById().all();

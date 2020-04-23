@@ -34,7 +34,7 @@ module.exports = class Attr extends Base {
     }
 
     initData () {
-        this.title = MetaHelper.createTitle(this);
+        this.title = MetaHelper.createLabel(this);
         this.description = this.data.description || '';
         this.options = this.data.options || {};
         if (!this.options.format) {
@@ -113,7 +113,7 @@ module.exports = class Attr extends Base {
     }
 
     getOption (key, defaults) {
-        return NestedValueHelper.get(key, this.options, defaults);
+        return NestedHelper.get(key, this.options, defaults);
     }
 
     getFormat () {
@@ -186,7 +186,7 @@ module.exports = class Attr extends Base {
 module.exports.init();
 
 const CommonHelper = require('areto/helper/CommonHelper');
-const NestedValueHelper = require('areto/helper/NestedValueHelper');
+const NestedHelper = require('areto/helper/NestedHelper');
 const MetaHelper = require('../helper/MetaHelper');
 const Enum = require('./Enum');
 const Calc = require('../calc/Calc');

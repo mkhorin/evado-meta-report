@@ -17,7 +17,7 @@ module.exports = class Group extends Base {
         this.actionBinder = this.data.actionBinder ? JSON.stringify(this.data.actionBinder) : '';
         this.options = this.data.options || {};
         this.type = this.data.type || 'set';
-        this.title = MetaHelper.createTitle(this);
+        this.title = MetaHelper.createLabel(this);
     }
 
     isGroup () {
@@ -33,11 +33,15 @@ module.exports = class Group extends Base {
     }
 
     prepare () {
-        this.children = this.getAttrs().concat(this.getGroups());
-        this.children.sort((a, b) => a.data.orderNumber - b.data.orderNumber);
+        this.attrs = this.forceGetAttrs();
+        this.groups = this.forceGetGroups();
+        this.children = [...this.attrs, ...this.groups];
+        MetaHelper.sortByDataOrderNumber(this.attrs);
+        MetaHelper.sortByDataOrderNumber(this.groups);
+        MetaHelper.sortByDataOrderNumber(this.children);
     }
 
-    getAttrs () {
+    forceGetAttrs () {
         const list = [];
         for (const attr of this.report.attrs) {
             if (attr.data.group === this.name) {
@@ -47,7 +51,7 @@ module.exports = class Group extends Base {
         return list;
     }
 
-    getGroups () {
+    forceGetGroups () {
         const list = [];
         for (const group of Object.values(this.report.groups)) {
             if (group.data.parent === this.name) {
