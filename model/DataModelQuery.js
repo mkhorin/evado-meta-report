@@ -119,7 +119,7 @@ module.exports = class DataModelQuery extends Base {
         const ids = MetaHelper.getModelValues(models, this.report.userAttrs);
         if (ids.length) {
             const user = this.getMeta().spawnUser();
-            const users = await user.findById(ids).indexById().all();
+            const users = await user.findById(ids).indexByKey().all();
             MetaHelper.setModelValueFromIndexedData(users, models, this.report.userAttrs);
         }
     }

@@ -16,7 +16,7 @@ module.exports = class BaseMiner extends Base {
         this.report = this.model.getMetaReport();
         this.reportMeta = this.report.getMeta();
         this.metaHub = this.reportMeta.hub;
-        this.docMeta = this.metaHub.get('document');
+        this.baseMeta = this.metaHub.get('base');
     }
 
     isStarted () {
@@ -72,7 +72,7 @@ module.exports = class BaseMiner extends Base {
     }
 
     log () {
-        CommonHelper.log(this.docMeta, this.constructor.name, ...arguments);
+        CommonHelper.log(this.baseMeta, this.constructor.name, ...arguments);
     }
 };
 module.exports.init();
