@@ -65,20 +65,6 @@ module.exports = class Token extends Base {
         }
     }
 
-    setTitleValues (index, models) {
-        for (const model of models) {
-            let value = ''; /* model.related.get(this.attrs[index]);
-            value = Array.isArray(value)
-                ? value.map(val => val.header.toString())
-                : value ? value.header.toString() : ''; */
-            if (index === 0) {
-                model.header.tokenValues.push(this.executeHandlers(value, model));
-            } else {
-                model.header.value = this.executeHandlers(value, model);
-            }
-        }
-    }
-
     executeHandlers (value, model) {
         for (const handler of this.handlers) {
             value = handler.execute(value, model);

@@ -13,7 +13,7 @@ module.exports = class ClassHeader extends Base {
     }
 
     assignResult (model, result) {
-        model.header.value = result;
+        model.header.title = result;
     }
 };
 

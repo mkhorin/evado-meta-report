@@ -40,11 +40,6 @@ module.exports = class DataModelQuery extends Base {
         return this;
     }
 
-    withReadOnlyTitle (value = true) {
-        this._withReadOnlyTitle = value;
-        return this;
-    }
-
     withTitle (value = true) {
         this._withTitle = value;
         return this;
@@ -59,7 +54,6 @@ module.exports = class DataModelQuery extends Base {
         this._withCalc = query._withCalc;
         this._withTitle = query._withTitle;
         this._withAttrTitle = query._withAttrTitle;
-        this._withReadOnlyTitle = query._withReadOnlyTitle;
         return this;
     }
 
@@ -116,7 +110,7 @@ module.exports = class DataModelQuery extends Base {
     }
 
     async resolveUsers (models) {
-        const ids = MetaHelper.getModelValues(models, this.report.userAttrs);
+        const ids = MetaHelper.getModelsValues(models, this.report.userAttrs);
         if (ids.length) {
             const user = this.getMeta().spawnUser();
             const users = await user.findById(ids).indexByKey().all();
