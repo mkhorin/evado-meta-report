@@ -90,12 +90,16 @@ module.exports = class DataModel extends Base {
     // FIND
 
     findByModel (id) {
-        return this.find().and(['ID', 'model', id]);
+        return this.createQuery().and(['ID', 'model', id]);
     }
 
     find () {
+        return this.createQuery().and(...arguments);
+    }
+
+    createQuery () {
         return this.spawn(DataModelQuery, {report: this});
-    }   
+    }
     
     log () {
         CommonHelper.log(this.getMeta(), `${this.constructor.name}: ${this}`, ...arguments);

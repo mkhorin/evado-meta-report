@@ -15,6 +15,10 @@ module.exports = class DataModelQuery extends Base {
         this._raw = null;
     }
 
+    byOwner (id) {
+        return this.and(['ID', this.report.OWNER_ATTR, id]);
+    }
+
     getMeta () {
         return this.report.meta;
     }

@@ -98,12 +98,16 @@ module.exports = class Report extends Base {
         return new ReportIndexes({report: this});
     }
 
-    find (module) {
-        return new DataModelQuery({report: this, module});
+    createQuery (config) {
+        return new DataModelQuery({report: this, ...config});
     }
 
-    findByOwner (id, module) {
-        return this.find(module).and(['ID', this.OWNER_ATTR, id]);
+    find () {
+        return this.createQuery().and(...arguments);
+    }
+
+    findByOwner (id) {
+        return this.createQuery().byOwner(id);
     }
 
     insert (values) {        

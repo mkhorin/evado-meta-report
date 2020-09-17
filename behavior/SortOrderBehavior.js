@@ -17,7 +17,7 @@ module.exports = class SortOrderBehavior extends Base {
 
     async beforeInsert () {
         let value = await this.getExtremeValue();
-        if (Number.isInteger(value)) {
+        if (Number.isSafeInteger(value)) {
             value += this.step;
         } else {
             value = this.start;
@@ -26,7 +26,7 @@ module.exports = class SortOrderBehavior extends Base {
     }
 
     getExtremeValue () {
-        return this.owner.report.find().order({
+        return this.owner.report.createQuery().order({
             [this.attrName]: this.step > 0 ? -1 : 1
         }).scalar(this.attrName);
     }

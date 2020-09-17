@@ -51,15 +51,13 @@ module.exports = class EnumSet extends Base {
     async resolve () {
         if (this._report) {
             // select all unique values by class attr
-            const query = this._report.find().and(this.data.queryFilter);
+            const query = this._report.find(this.data.queryFilter);
             const key = this._valueAttr
                 ? this._valueAttr.name
                 : this._report.getKey();
             const values = await query.distinct(key);
-            this._resolvedItems = values.map(value => ({
-                value,
-                text: this.getText(value)
-            }));
+            const text = this.getText(value);
+            this._resolvedItems = values.map(value => ({value, text}));
         }
     }
 };
