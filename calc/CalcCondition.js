@@ -14,7 +14,7 @@ module.exports = class CalcCondition extends Base {
             this.operator = this.data[0];
             this.operands = this.data.slice(1).map(this.initOperand.bind(this));
         } else if (this.data && typeof this.data === 'object') {
-            // hash condition - {a1: 1, a2: [1, 2, 3]}
+            // hash condition: {a1: 1, a2: [1, 2, 3]}
             this.method = this.constructor.prototype.resolveHash;
             for (const key of Object.keys(this.data)) {
                 this.data[key] = this.initOperand(this.data[key]);
@@ -27,7 +27,7 @@ module.exports = class CalcCondition extends Base {
     }
 
     resolve (model) {
-        return this.method ? this.method.call(this, model) : null;
+        return this.method?.call(this, model);
     }
 
     async resolveSimple (model) {

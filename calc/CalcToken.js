@@ -1,14 +1,14 @@
 /**
  * @copyright Copyright (c) 2020 Maxim Khorin (maksimovichu@gmail.com)
+ *
+ * ["$out", "value"]
+ * ["$+", ".attr", 45, ...]
+ * ["$+", ".attr", ["$-", 67, ".attr"], 5]
+ * ["$length", ".towns"]
+ * ["$join", "separator", ".towns", ...]
+ * ["$map", "toUpperCase", ".towns", ...]
  */
 'use strict';
-
-// ["$out", "value"]
-// ["$+", ".attr", 45, ...]
-// ["$+", ".attr", ["$-", 67, ".attr"], 5]
-// ["$length", ".towns"]
-// ["$join", "separator", ".towns", ... ]
-// ["$map", "toUpperCase", ".towns", ...]
 
 const Base = require('areto/base/Base');
 
@@ -92,7 +92,7 @@ module.exports = class CalcToken extends Base {
     }
 
     resolveLength (value) {
-        return value && value.length ? value.length : 0;
+        return value?.length || 0;
     }
 
     resolveJoin (separator, ...values) {

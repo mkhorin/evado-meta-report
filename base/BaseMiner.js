@@ -19,6 +19,10 @@ module.exports = class BaseMiner extends Base {
         this.baseMeta = this.metaHub.get('base');
     }
 
+    execute () {
+        throw new Error('Place miner code here');
+    }
+
     isStarted () {
         return this._started;
     }
@@ -28,9 +32,9 @@ module.exports = class BaseMiner extends Base {
             return false;
         }
         this._started = true;
-        await this.beforeRun();
-        await this.run();
-        await this.afterRun();
+        await this.beforeExecute();
+        await this.execute();
+        await this.afterExecute();
     }
 
     async stop () {
@@ -40,15 +44,11 @@ module.exports = class BaseMiner extends Base {
         }
     }
 
-    async run () {
-        throw new Error('Place miner code here');
-    }
-
-    beforeRun () {
+    beforeExecute () {
         this.startTime = new Date;
     }
 
-    afterRun () {        
+    afterExecute () {
         this.duration = Date.now() - this.startTime.getTime();
     }
 

@@ -31,9 +31,9 @@ module.exports = class SortOrderBehavior extends Base {
         }).scalar(this.attrName);
     }
 
-    async update (data, metaClass) {
+    async update (data, cls) {
         for (const id of Object.keys(data)) {
-            const model = await metaClass.findById(id).one();
+            const model = await cls.findById(id).one();
             if (model) {
                 model.setUser(this.user);
                 model.set(this.attrName, data[id]);

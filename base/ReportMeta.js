@@ -10,7 +10,9 @@ module.exports = class ReportMeta extends Base {
     constructor (config) {
         super({
             name: 'report',
-            source: {Class: require('../source/FileSource')},
+            source: {
+                Class: require('../source/FileSource')
+            },
             dataTablePrefix: 'r_',
             ...config
         });
@@ -18,16 +20,17 @@ module.exports = class ReportMeta extends Base {
     }
 
     getReport (name) {
-        return this.reportMap[name] instanceof Report && this.reportMap[name];
+        return this.reportMap[name] instanceof Report ? this.reportMap[name] : null;
     }
 
-    getAttr (id) { // attr.report
-        if (typeof id !== 'string') {
-            return null;
+    /**
+     * @param id - attr.report
+     */
+    getAttr (id) {
+        if (typeof id === 'string') {
+            const [attr, report] = id.split('.');
+            return this.getReport(report)?.getAttr(attr);
         }
-        let [attr, report] = id.split('.');
-        report = this.getReport(report);
-        return report ? report.getAttr(attr) : null;
     }
 
     getDataTables () {

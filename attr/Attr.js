@@ -41,6 +41,7 @@ module.exports = class Attr extends Base {
             this.options.format = this.getDefaultFormat();
         }
         this.searchDepth = this.resolveSearchDepth();
+        this.template = this.options.template || this.viewType;
     }
 
     isCalc () {
@@ -98,6 +99,10 @@ module.exports = class Attr extends Base {
 
     getName () {
         return this.name;
+    }
+
+    getTemplate () {
+        return this.template;
     }
 
     getTitle () {

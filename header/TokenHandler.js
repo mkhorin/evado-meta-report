@@ -97,7 +97,7 @@ module.exports = class TokenHandler extends Base {
     }
 
     asEnum (value) {
-        return this.token.firstAttr && this.token.firstAttr.enum
+        return this.token.firstAttr?.enum
             ? this.token.firstAttr.enum.getText(value)
             : value;
     }
