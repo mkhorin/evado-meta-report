@@ -60,7 +60,7 @@ module.exports = class TokenHandler extends Base {
     }
 
     getMethod (name) {
-        name = `as${StringHelper.toFirstUpperCase(name)}`;
+        name = `as${StringHelper.capitalize(name)}`;
         return typeof this[name] === 'function' ? this[name] : null;
     }
 
