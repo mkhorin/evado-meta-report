@@ -15,29 +15,27 @@ module.exports = class FileSource extends Base {
     }
 
     async load () {
-        this.clear();
-        await this.loadReports();
-        return this._data;
+        return {
+            report: await this.loadReports()
+        };
     }
 
-    loadReports () {
-        return this.loadJsonItems('report', this.reportDirectory);
-    }
-
-    async loadJsonItems (type, dir) {
-        dir = this.meta.getPath(dir);
+    async loadReports () {
+        const dir = this.meta.getPath(this.reportDirectory);
         const files = await FileHelper.readDirectory(dir);
+        const result = [];
         for (const file of FileHelper.filterJsonFiles(files)) {
             try {
                 const data = await FileHelper.readJsonFile(path.join(dir, file));
                 data.name = FileHelper.getBasename(file);
-                this._data[type].push(data);
+                result.push(data);
             } catch (err) {
                 this.meta.log('error', `Invalid JSON: ${path.join(dir, file)}`, err);
             }
         }
+        return result;
     }
 };
 
-const path = require('path');
 const FileHelper = require('areto/helper/FileHelper');
+const path = require('path');
