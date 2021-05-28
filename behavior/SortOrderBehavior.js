@@ -26,16 +26,20 @@ module.exports = class SortOrderBehavior extends Base {
     }
 
     getExtremeValue () {
-        return this.owner.report.createQuery().order({
-            [this.attrName]: this.step > 0 ? -1 : 1
-        }).scalar(this.attrName);
+        const direction = this.step > 0 ? -1 : 1;
+        return this.owner.report.createQuery()
+            .order({[this.attrName]: direction})
+            .scalar(this.attrName);
     }
 
-    async update (data, cls) {
+    async update (data, report) {
+        const config = {
+            module: this.module,
+            user: this.user
+        };
         for (const id of Object.keys(data)) {
-            const model = await cls.findById(id).one();
+            const model = await report.createQuery(config).byId(id).one();
             if (model) {
-                model.setUser(this.user);
                 model.set(this.attrName, data[id]);
                 await model.forceSave();
             }

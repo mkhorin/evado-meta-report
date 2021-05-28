@@ -70,12 +70,9 @@ module.exports = class Report extends Base {
         return this.id;
     }
 
-    prepare () {
-        this.createAttrs();
-        this.createMinerConfig();
-    }
-
-    prepareBehaviors () {
+    createBehaviors () {
+        this.behaviors = new ReportBehaviors({owner: this});
+        this.behaviors.init();
     }
 
     createMinerConfig () {
@@ -116,7 +113,8 @@ module.exports = class Report extends Base {
 
     async dropData () {
         await this.getDb().drop(this.table);
-        this.log('info', 'Data has been dropped');
+        await this.behaviors.dropData();
+        this.log('info', 'Data deleted');
     }
 
     createAttrs () {
@@ -189,12 +187,6 @@ module.exports = class Report extends Base {
         }
     }
 
-    createCalc () {
-        for (const attr of this.calcAttrs) {
-            attr.createCalc();
-        }
-    }
-
     prepareAttrs () {
         this.attrs.forEach(attr => attr.prepare());
     }
@@ -212,4 +204,5 @@ const Attr = require('../attr/Attr');
 const AttrHeader = require('../header/AttrHeader');
 const DataModel = require('../model/DataModel');
 const DataModelQuery = require('../model/DataModelQuery');
+const ReportBehaviors = require('./ReportBehaviors');
 const ReportIndexes = require('./ReportIndexes');

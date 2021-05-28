@@ -10,7 +10,7 @@ module.exports = class Enum extends Base {
     static create (attr) {
         const data = attr.data.enums;
         if (Array.isArray(data) && data.length) {
-            return new Enum({attr, data});
+            return new this({attr, data});
         }
     }
 

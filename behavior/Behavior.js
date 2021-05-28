@@ -10,57 +10,33 @@ module.exports = class Behavior extends Base {
     static getConstants () {
         return {
             BUILTIN: {
-                'sortOrder': './SortOrderBehavior'
+                sortOrder: './SortOrderBehavior'
             },
-            CUSTOM_BEHAVIOR_TYPE: 'custom'
+            CUSTOM_TYPE: 'custom'
         };
     }
 
-    static createConfigurations (owner) {
-        const items = owner.data.behaviors;
-        if (!Array.isArray(items)) {
-            return null;
-        }
-        owner.behaviors = [];
-        for (const item of items) {
-            const data = this.createConfiguration(item, owner);
-            data ? this.appendConfiguration(owner, data)
-                 : owner.log('error', 'Invalid behavior configuration', item);
-        }
+    static getBuiltIn (name) {
+        return this.BUILTIN.hasOwnProperty(name) ? require(this.BUILTIN[name]) : null;
     }
 
-    static initConfiguration () {
-        // override if necessary
+    static getDefaultConfig () {
+        return null;
     }
 
-    static appendConfiguration (owner, data) {
-        data.Class.initConfiguration(data);
-        ObjectHelper.push(data, 'behaviors', owner);
+    static prepareConfig (data) {
         return data;
     }
 
-    static createConfiguration (data, owner) {
-        if (!data) {
-            return null;
-        }
-        if (this.BUILTIN.hasOwnProperty(data)) {
-            return {Class: require(this.BUILTIN[data])};
-        }
-        if (data.type === this.CUSTOM_BEHAVIOR_TYPE) {
-            return ClassHelper.resolveSpawn(data.config, owner.getMeta().module);
-        }
-        if (this.BUILTIN.hasOwnProperty(data.type)) {
-            return {...data, Class: require(this.BUILTIN[data.type])};
-        }
+    static log (report, type, message, ...args) {
+        report.log(type, `${this.name}: ${message}`, ...args);
     }
 
     static createModelBehaviors (model) {
         model.behaviors = [];
-        if (model.report.behaviors) {
-            for (const config of model.report.behaviors) {
-                config.owner = model;
-                model.behaviors.push(ClassHelper.spawn(config));
-            }
+        for (const config of model.report.behaviors) {
+            config.owner = model;
+            model.behaviors.push(ClassHelper.spawn(config));
         }
     }
 
@@ -75,8 +51,20 @@ module.exports = class Behavior extends Base {
 
     module = this.owner.module;
 
+    get () {
+        return this.owner.get(...arguments);
+    }
+
+    set () {
+        return this.owner.set(...arguments);
+    }
+
     getMeta () {
         return this.owner.getMeta();
+    }
+
+    async dropData () {
+        // override if necessary
     }
 
     // beforeValidate

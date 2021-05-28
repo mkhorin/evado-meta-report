@@ -30,10 +30,6 @@ module.exports = class Attr extends Base {
         this.id = `${this.name}.${this.report.id}`;
         this.templateKey = `_attr/${this.report.name}/${this.name}`;
         this.parentTemplateKey = this.templateKey;
-        this.initData();
-    }
-
-    initData () {
         this.title = MetaHelper.createLabel(this);
         this.description = this.data.description || '';
         this.options = this.data.options || {};
@@ -66,6 +62,10 @@ module.exports = class Attr extends Base {
 
     isString () {
         return this.type === TypeHelper.TYPES.STRING;
+    }
+
+    isText () {
+        return this.type === TypeHelper.TYPES.TEXT;
     }
 
     isUTC () {
@@ -137,35 +137,22 @@ module.exports = class Attr extends Base {
         return this.id;
     }
 
+    prepare () {
+        this.createEnum();
+        this.createCalc();
+        this.createDefaultValue();
+    }
+
+    createEnum () {
+        this.enum = Enum.create(this);
+    }
+
     createCalc () {
-        if (this.hasData('expression')) {
-            this.calc = new Calc({
-                attr: this,
-                data: this.data.expression
-            });
-        }
+        this.calc = Calc.create('expression', this);
     }
 
     createDefaultValue () {
-        if (this.hasData('defaultValue')) {
-            this.defaultValue = new Calc({
-                attr: this,
-                data: this.data.defaultValue
-            });
-        }
-    }
-
-    prepare () {
-        this.enum = Enum.create(this) ;
-        this.prepareBehaviors();
-    }
-
-    prepareBehaviors () {
-        if (Array.isArray(this.data.behaviors)) {
-            for (const data of this.data.behaviors) {
-                this.report.addAttrBehavior(this, data);
-            }
-        }
+        this.defaultValue = Calc.create('defaultValue', this);
     }
 
     resolveSearchDepth () {

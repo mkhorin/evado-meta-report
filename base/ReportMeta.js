@@ -42,9 +42,7 @@ module.exports = class ReportMeta extends Base {
     async load () {
         await super.load();
         this.createReports();
-        this.prepareReports();
-        this.createDeferredBinding();
-        this.prepareBehaviors();
+        await this.createDeferredBinding();
         /*if (this.Inspector) {
             await this.Inspector.execute(this);
         }*/
@@ -57,38 +55,34 @@ module.exports = class ReportMeta extends Base {
     }
 
     createReport (data) {
-        if (this.getReport(data.name)) {
-            return this.log('error', `Report already exists: ${data.name}`);
+        const name = data.name;
+        if (this.getReport(name)) {
+            return this.log('error', `Report already exists: ${name}`);
         }
-        this.reportMap[data.name] = new Report({meta: this, data});
-        this.reports.push(this.reportMap[data.name]);
+        this.reportMap[name] = new Report({meta: this, data});
+        this.reports.push(this.reportMap[name]);
     }
 
-    prepareReports () {
-        this.reports.forEach(item => item.prepare());
+    async createDeferredBinding () {
+        await this.processReportMethods([
+            'createAttrs',
+            'createMinerConfig',
+            'createBehaviors',
+            'prepareAttrs'
+        ]);
     }
 
-    createDeferredBinding () {
-    }
-
-    prepareBehaviors () {
-        for (const report of this.reports) {
-            Behavior.createConfigurations(report);
-            report.prepareBehaviors();
+    async processReportMethods (methods) {
+        for (const method of methods) {
+            for (const report of this.reports) {
+                await report[method]();
+            }
         }
     }
 
     async createIndexes () {
         for (const report of this.reports) {
             await report.indexes.create();
-        }
-    }
-
-    processReportMethod (...methods) {
-        for (const method of methods) {
-            for (const report of this.reports) {
-                report[method]();
-            }
         }
     }
 
@@ -100,5 +94,4 @@ module.exports = class ReportMeta extends Base {
     }
 };
 
-const Behavior = require('../behavior/Behavior');
 const Report = require('./Report');

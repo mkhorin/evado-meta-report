@@ -7,6 +7,12 @@ const Base = require('areto/base/Base');
 
 module.exports = class Calc extends Base {
 
+    static create (key, attr) {
+        if (attr.hasData(key)) {
+            return new this({attr, data: this.data[key]});
+        }
+    }
+
     constructor (config) {
         super(config);
         this.token = this.createToken(this.data);
