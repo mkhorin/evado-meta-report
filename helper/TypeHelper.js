@@ -27,10 +27,7 @@ module.exports = class TypeHelper extends Base {
     }
 
     static hasType (type) {
-        if (!this._typeList) {
-            this._typeList = Object.values(this.TYPES);
-        }
-        return this._typeList.includes(type);
+        return Object.values(this.TYPES).includes(type);
     }
 
     static cast (value, type) {
@@ -45,7 +42,7 @@ module.exports = class TypeHelper extends Base {
                 return value.toString();
 
             case this.TYPES.ID:
-                return value instanceof ObjectId ? value : ObjectId.isValid(value) ? ObjectId(value) : null;
+                return value instanceof ObjectID ? value : ObjectID.isValid(value) ? ObjectID(value) : null;
             
             case this.TYPES.INTEGER:
                 value = parseInt(value);
@@ -90,6 +87,6 @@ module.exports = class TypeHelper extends Base {
 };
 module.exports.init();
 
+const {ObjectID} = require('mongodb');
 const DateHelper = require('areto/helper/DateHelper');
 const EscapeHelper = require('areto/helper/EscapeHelper');
-const ObjectId = require('mongodb').ObjectID;

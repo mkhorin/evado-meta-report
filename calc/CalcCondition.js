@@ -9,16 +9,31 @@ module.exports = class CalcCondition extends Base {
 
     constructor (config) {
         super(config);
+        this.initData();
+    }
+
+    initData () {
         if (Array.isArray(this.data)) {
-            this.method = this.constructor.prototype.resolveSimple;
-            this.operator = this.data[0];
-            this.operands = this.data.slice(1).map(this.initOperand.bind(this));
-        } else if (this.data && typeof this.data === 'object') {
-            // hash condition: {a1: 1, a2: [1, 2, 3]}
-            this.method = this.constructor.prototype.resolveHash;
-            for (const key of Object.keys(this.data)) {
-                this.data[key] = this.initOperand(this.data[key]);
-            }
+            this.initArrayData();
+        }
+        if (this.data && typeof this.data === 'object') {
+             this.initHashData();
+        }
+    }
+
+    initArrayData () {
+        this.method = this.constructor.prototype.resolveSimple;
+        this.operator = this.data[0];
+        this.operands = this.data.slice(1).map(this.initOperand.bind(this));
+    }
+
+    /**
+     * Hash condition: {a1: 1, a2: [1, 2]}
+     */
+    initHashData () {
+        this.method = this.constructor.prototype.resolveHash;
+        for (const key of Object.keys(this.data)) {
+            this.data[key] = this.initOperand(this.data[key]);
         }
     }
 
