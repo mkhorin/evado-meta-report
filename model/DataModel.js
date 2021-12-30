@@ -90,7 +90,7 @@ module.exports = class DataModel extends Base {
     // FIND
 
     findByModel (id) {
-        return this.createQuery().and(['ID', 'model', id]);
+        return this.createQuery().and(['id', 'model', id]);
     }
 
     find () {

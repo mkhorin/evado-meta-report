@@ -16,7 +16,7 @@ module.exports = class DataModelQuery extends Base {
     }
 
     byOwner (id) {
-        return this.and(['ID', this.report.OWNER_ATTR, id]);
+        return this.and(['id', this.report.OWNER_ATTR, id]);
     }
 
     getMeta () {

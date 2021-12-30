@@ -68,7 +68,7 @@ module.exports = class TypeHelper extends Base {
         switch (type) {
             case this.TYPES.STRING:
                 value = EscapeHelper.escapeRegex(value);
-                return ['LIKE', attrName, new RegExp(value, 'i')];
+                return ['like', attrName, new RegExp(value, 'i')];
 
             case this.TYPES.INTEGER:
             case this.TYPES.FLOAT:
@@ -81,7 +81,7 @@ module.exports = class TypeHelper extends Base {
 
             case TypeHelper.TYPES.DATE:
                 value = DateHelper.getDayInterval(value);
-                return value ? ['AND', ['>=', attrName, value[0]], ['<', attrName, value[1]]] : null;
+                return value ? ['and', ['>=', attrName, value[0]], ['<', attrName, value[1]]] : null;
         }
     }
 };
