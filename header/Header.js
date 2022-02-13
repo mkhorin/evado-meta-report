@@ -9,7 +9,7 @@ module.exports = class Title extends Base {
 
     parse (data, Token) {
         this._tokens = []; //
-        this._staticParts = [];  // 'label: {name}', 'label: ' - static part        
+        this._staticParts = [];  // 'label: {name}', 'label: ' - static part
         const regex = new RegExp('{(.+?)}', 'g');
         let index = 0, result;
         while (result = regex.exec(data)) {

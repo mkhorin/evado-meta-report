@@ -8,7 +8,7 @@ const Base = require('./Header');
 module.exports = class ClassHeader extends Base {
 
     constructor (config) {
-        super(config);        
+        super(config);
         this.parse(this.owner.data.header, ClassToken);
     }
 

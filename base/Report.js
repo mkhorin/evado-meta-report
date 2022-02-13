@@ -37,7 +37,7 @@ module.exports = class Report extends Base {
     getLabel () {
         return this.data.label || this.name;
     }
-    
+
     getTitle () {
         return this.id;
     }
@@ -107,7 +107,7 @@ module.exports = class Report extends Base {
         return this.createQuery().byOwner(id);
     }
 
-    insert (values) {        
+    insert (values) {
         return this.getDb().insert(this.table, values);
     }
 
@@ -193,7 +193,7 @@ module.exports = class Report extends Base {
 
     log () {
         CommonHelper.log(this.meta, `${this.constructor.name}: ${this.id}`, ...arguments);
-    }    
+    }
 };
 module.exports.init();
 

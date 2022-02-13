@@ -18,7 +18,7 @@ module.exports = class TypeHelper extends Base {
                 INTEGER: 'integer',
                 STRING: 'string'
             },
-            VIEW_TYPES: {                
+            VIEW_TYPES: {
                 DATE: 'date',
                 DATETIME: 'datetime',
                 TIMESTAMP: 'timestamp'
@@ -43,7 +43,7 @@ module.exports = class TypeHelper extends Base {
 
             case this.TYPES.ID:
                 return value instanceof ObjectID ? value : ObjectID.isValid(value) ? ObjectID(value) : null;
-            
+
             case this.TYPES.INTEGER:
                 value = parseInt(value);
                 return isNaN(value) ? null : value;

@@ -75,7 +75,7 @@ module.exports = class DataModelQuery extends Base {
         }
         const models = [];
         const params = this.module ? {module: this.module} : null;
-        for (const doc of docs) {            
+        for (const doc of docs) {
             const model = this.report.createDataModel(params);
             model.populate(doc);
             models.push(model);

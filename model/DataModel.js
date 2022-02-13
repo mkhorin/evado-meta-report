@@ -100,10 +100,10 @@ module.exports = class DataModel extends Base {
     createQuery () {
         return this.spawn(DataModelQuery, {report: this});
     }
-    
+
     log () {
         CommonHelper.log(this.getMeta(), `${this.constructor.name}: ${this}`, ...arguments);
-    }    
+    }
 };
 
 const CommonHelper = require('areto/helper/CommonHelper');

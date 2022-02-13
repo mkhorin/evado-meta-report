@@ -7,5 +7,4 @@ const Base = require('./Token');
 
 module.exports = class ClassToken extends Base {
 
-    
 };

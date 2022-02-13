@@ -11,8 +11,8 @@ module.exports = class DataModelHeader extends Base {
     value = null;
 
     get (name) {
-        return Object.prototype.hasOwnProperty.call(this.data, name) 
-            ? this.data[name] 
+        return Object.prototype.hasOwnProperty.call(this.data, name)
+            ? this.data[name]
             : this.model.get(name);
     }
 
