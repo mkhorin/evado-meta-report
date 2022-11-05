@@ -40,7 +40,7 @@ module.exports = class CalcToken extends Base {
     constructor (config) {
         super(config);
         this.method = this.constructor.getMethod(this.operator);
-        this.operands = this.operands.map(this.initOperand.bind(this));
+        this.operands = this.operands.map(this.initOperand, this);
     }
 
     initOperand (data) {

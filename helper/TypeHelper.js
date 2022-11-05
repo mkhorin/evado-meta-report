@@ -38,50 +38,59 @@ module.exports = class TypeHelper extends Base {
             return value.map(item => this.cast(item, type));
         }
         switch (type) {
-            case this.TYPES.STRING:
+            case this.TYPES.STRING: {
                 return value.toString();
-
-            case this.TYPES.ID:
-                return value instanceof ObjectID ? value : ObjectID.isValid(value) ? ObjectID(value) : null;
-
-            case this.TYPES.INTEGER:
+            }
+            case this.TYPES.ID: {
+                if (value instanceof ObjectID) {
+                    return value;
+                }
+                return ObjectID.isValid(value)
+                    ? ObjectID(value)
+                    : null;
+            }
+            case this.TYPES.INTEGER: {
                 value = parseInt(value);
                 return isNaN(value) ? null : value;
-
-            case this.TYPES.FLOAT:
+            }
+            case this.TYPES.FLOAT: {
                 value = parseFloat(value);
                 return isNaN(value) ? null : value;
-
-            case this.TYPES.DATE:
+            }
+            case this.TYPES.DATE: {
                 if (!(value instanceof Date)) {
                     value = new Date(value);
                 }
                 return isNaN(value.getTime()) ? null : value;
-
-            case this.TYPES.BOOLEAN:
+            }
+            case this.TYPES.BOOLEAN: {
                 return !!value;
+            }
         }
         return value;
     }
 
     static getSearchCondition (value, type, attrName, db) {
         switch (type) {
-            case this.TYPES.STRING:
+            case this.TYPES.STRING: {
                 value = EscapeHelper.escapeRegex(value);
                 return ['like', attrName, new RegExp(value, 'i')];
-
+            }
             case this.TYPES.INTEGER:
-            case this.TYPES.FLOAT:
+            case this.TYPES.FLOAT: {
                 value = Number(value);
                 return isNaN(value) ? null : {[attrName]: value};
-
-            case TypeHelper.TYPES.ID:
+            }
+            case TypeHelper.TYPES.ID: {
                 value = db.normalizeId(value);
                 return value ? {[attrName]: value} : null;
-
-            case TypeHelper.TYPES.DATE:
+            }
+            case TypeHelper.TYPES.DATE: {
                 value = DateHelper.getDayInterval(value);
-                return value ? ['and', ['>=', attrName, value[0]], ['<', attrName, value[1]]] : null;
+                return value
+                    ? ['and', ['>=', attrName, value[0]], ['<', attrName, value[1]]]
+                    : null;
+            }
         }
     }
 };

@@ -24,7 +24,7 @@ module.exports = class CalcCondition extends Base {
     initArrayData () {
         this.method = this.constructor.prototype.resolveSimple;
         this.operator = this.data[0];
-        this.operands = this.data.slice(1).map(this.initOperand.bind(this));
+        this.operands = this.data.slice(1).map(this.initOperand, this);
     }
 
     /**
