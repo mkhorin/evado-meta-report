@@ -41,11 +41,11 @@ module.exports = class Attr extends Base {
     }
 
     isCalc () {
-        return this.type === TypeHelper.TYPES.CALC;
+        return this.type === TYPES.CALC;
     }
 
     isDate () {
-        return this.type === TypeHelper.TYPES.DATE;
+        return this.type === TYPES.DATE;
     }
 
     isGroup () {
@@ -57,24 +57,24 @@ module.exports = class Attr extends Base {
     }
 
     isNumber () {
-        return this.type === TypeHelper.TYPES.INTEGER || this.type === TypeHelper.TYPES.FLOAT;
+        return this.type === TYPES.INTEGER || this.type === TYPES.FLOAT;
     }
 
     isString () {
-        return this.type === TypeHelper.TYPES.STRING;
+        return this.type === TYPES.STRING;
     }
 
     isText () {
-        return this.type === TypeHelper.TYPES.TEXT;
+        return this.type === TYPES.TEXT;
     }
 
     isUTC () {
-        return this.viewType === TypeHelper.VIEW_TYPES.DATE
-            || this.viewType === TypeHelper.VIEW_TYPES.DATETIME;
+        return this.viewType === VIEW_TYPES.DATE
+            || this.viewType === VIEW_TYPES.DATETIME;
     }
 
     isUser () {
-        return this.type === TypeHelper.TYPES.USER;
+        return this.type === TYPES.USER;
     }
 
     isSearchable () {
@@ -162,7 +162,9 @@ module.exports = class Attr extends Base {
     // SEARCH
 
     getSearchCondition (value) {
-        const condition = TypeHelper.getSearchCondition(value, this.getType(), this.name, this.report.getDb());
+        const type = this.getType();
+        const db = this.report.getDb();
+        const condition = TypeHelper.getSearchCondition(value, type, this.name, db);
         if (condition === undefined) {
             this.log('error', 'Invalid search condition');
         }
@@ -183,3 +185,4 @@ const MetaHelper = require('../helper/MetaHelper');
 const Enum = require('./Enum');
 const Calc = require('../calc/Calc');
 const TypeHelper = require('../helper/TypeHelper');
+const {VIEW_TYPES, TYPES} = TypeHelper;
