@@ -17,7 +17,9 @@ module.exports = class Behavior extends Base {
     }
 
     static getBuiltIn (name) {
-        return this.BUILTIN.hasOwnProperty(name) ? require(this.BUILTIN[name]) : null;
+        return this.BUILTIN.hasOwnProperty(name)
+            ? require(this.BUILTIN[name])
+            : null;
     }
 
     static getDefaultSpawn () {
@@ -36,7 +38,8 @@ module.exports = class Behavior extends Base {
         model.behaviors = [];
         for (const config of model.report.behaviors) {
             config.owner = model;
-            model.behaviors.push(ClassHelper.spawn(config));
+            const behavior = ClassHelper.spawn(config);
+            model.behaviors.push(behavior);
         }
     }
 

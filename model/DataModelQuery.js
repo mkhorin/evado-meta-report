@@ -80,8 +80,10 @@ module.exports = class DataModelQuery extends Base {
             model.populate(doc);
             models.push(model);
         }
-        if (this._withCalc && this.report.calcAttrs.length) {
-            await this.resolveCalc(models);
+        if (this._withCalc) {
+            if (this.report.calcAttrs.length) {
+                await this.resolveCalc(models);
+            }
         }
         if (this._withAttrTitle) {
             await this.resolveAttrTitle(models);
@@ -92,7 +94,9 @@ module.exports = class DataModelQuery extends Base {
         if (this.report.userAttrs.length) {
             await this.resolveUsers(models);
         }
-        return this._index ? this.indexModels(models) : models;
+        return this._index
+            ? this.indexModels(models)
+            : models;
     }
 
     async resolveCalc (models) {

@@ -26,7 +26,8 @@ module.exports = class ReportIndexes extends Base {
     }
 
     async create () {
-        for (const data of this.getIndexList()) {
+        const items = this.getIndexList();
+        for (const data of items) {
             await this.getDb().createIndex(this.getTable(), data);
         }
         this.log('info', 'Indexes created');

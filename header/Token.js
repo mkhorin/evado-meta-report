@@ -53,15 +53,20 @@ module.exports = class Token extends Base {
         if (!this.firstAttr || !models.length) {
             return;
         }
-        if (this.firstAttr.calc && models[0].get(this.firstAttr.name) === undefined) {
-            await this.firstAttr.calc.resolve(models);
+        if (this.firstAttr.calc) {
+            const value = models[0].get(this.firstAttr.name);
+            if (value === undefined) {
+                await this.firstAttr.calc.resolve(models);
+            }
         }
         this.assignValues(models);
     }
 
     assignValues (models) {
         for (const model of models) {
-            model.header.tokenValues.push(this.executeHandlers(model.get(this.firstAttr), model));
+            const value = model.get(this.firstAttr);
+            const result = this.executeHandlers(value, model);
+            model.header.tokenValues.push(result);
         }
     }
 

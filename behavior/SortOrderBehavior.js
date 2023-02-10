@@ -27,9 +27,9 @@ module.exports = class SortOrderBehavior extends Base {
 
     getExtremeValue () {
         const direction = this.step > 0 ? -1 : 1;
-        return this.owner.report.createQuery()
-            .order({[this.attrName]: direction})
-            .scalar(this.attrName);
+        const query = this.owner.report.createQuery();
+        query.order({[this.attrName]: direction});
+        return query.scalar(this.attrName);
     }
 
     async update (data, report) {
@@ -38,7 +38,8 @@ module.exports = class SortOrderBehavior extends Base {
             user: this.user
         };
         for (const id of Object.keys(data)) {
-            const model = await report.createQuery(config).byId(id).one();
+            const query = report.createQuery(config).byId(id);
+            const model = await query.one();
             if (model) {
                 model.set(this.attrName, data[id]);
                 await model.forceSave();

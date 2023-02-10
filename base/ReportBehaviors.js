@@ -16,7 +16,6 @@ module.exports = class ReportBehaviors extends Base {
         this.createDefaultItems();
         this.prepareItems();
         this.sortItems();
-
         this.afterFindItems = this.getAllByMethod('afterFind');
         this.afterPopulateItems = this.getAllByMethod('afterPopulate');
     }
@@ -97,7 +96,8 @@ module.exports = class ReportBehaviors extends Base {
 
     createDefaultItems () {
         const result = [];
-        for (const Class of this.constructor.getDefaultBehaviorClasses()) {
+        const Classes = this.constructor.getDefaultBehaviorClasses();
+        for (const Class of Classes) {
             const item = this.createDefaultItem(Class);
             if (item) {
                 result.push(item);

@@ -50,7 +50,8 @@ module.exports = class CalcToken extends Base {
     async resolve (model) {
         const values = [];
         for (const operand of this.operands) {
-            values.push(await this.constructor.mapOperand(operand, model));
+            const value = await this.constructor.mapOperand(operand, model);
+            values.push(value);
         }
         return this.method(...values);
     }
@@ -96,18 +97,20 @@ module.exports = class CalcToken extends Base {
     }
 
     resolveJoin (separator, ...values) {
-        return values.map(value => {
-            return Array.isArray(value) ? value.join(separator) : value;
-        }).join(separator);
+        values = values.map(value => Array.isArray(value) ? value.join(separator) : value);
+        return values.join(separator);
     }
 
     resolveMap (methodName, ...values) {
         const method = this.executeMapMethod.bind(this, methodName);
-        return [].concat(...values.map(value => Array.isArray(value) ? value.map(method) : value));
+        values = values.map(value => Array.isArray(value) ? value.map(method) : value);
+        return [].concat(...values);
     }
 
     executeMapMethod (name, value) {
-        return value && typeof value[name] === 'function' ? value[name]() : value;
+        return value && typeof value[name] === 'function'
+            ? value[name]()
+            : value;
     }
 
     log () {

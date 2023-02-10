@@ -49,7 +49,8 @@ module.exports = class CalcCondition extends Base {
         const values = [];
         if (Array.isArray(this.operands)) {
             for (const operand of this.operands) {
-                values.push(await this.token.constructor.mapOperand(operand, model));
+                const value = await this.token.constructor.mapOperand(operand, model);
+                values.push(value);
             }
         }
         values.unshift(this.operator);

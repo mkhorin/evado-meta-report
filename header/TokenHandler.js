@@ -41,7 +41,8 @@ module.exports = class TokenHandler extends Base {
         const name = (index !== -1 ? this.data.substring(0, index) : this.data).trim();
         this.method = this.getMethod(name);
         if (!this.method) {
-            this.method = this.formatter[this.formatter.getMethodName(name)];
+            const methodName = this.formatter.getMethodName(name);
+            this.method = this.formatter[methodName];
             if (this.method) {
                 this.method = this.method.bind(this.formatter);
             } else {
@@ -77,7 +78,9 @@ module.exports = class TokenHandler extends Base {
     // METHODS
 
     asJoin (value) {
-        return Array.isArray(value) ? value.join(this.params.separator) : value;
+        return Array.isArray(value)
+            ? value.join(this.params.separator)
+            : value;
     }
 
     asMap (value, params, model) {
@@ -93,7 +96,9 @@ module.exports = class TokenHandler extends Base {
     }
 
     asRaw (value, params, model) {
-        return this.token.firstAttr ? model.get(this.token.firstAttr.name) : value;
+        return this.token.firstAttr
+            ? model.get(this.token.firstAttr.name)
+            : value;
     }
 
     asEnum (value) {
