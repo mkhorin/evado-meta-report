@@ -51,12 +51,12 @@ module.exports = class DataModel extends Base {
     // ATTR VALUES
 
     has (attr) {
-        return Object.prototype.hasOwnProperty.call(this._values, attr.name || attr);
+        return Object.hasOwn(this._values, attr.name || attr);
     }
 
     get (attr) {
         attr = attr.name || attr;
-        if (Object.prototype.hasOwnProperty.call(this._values, attr)) {
+        if (Object.hasOwn(this._values, attr)) {
             return this._values[attr];
         }
     }

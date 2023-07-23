@@ -86,7 +86,7 @@ module.exports = class Attr extends Base {
     }
 
     hasData (key) {
-        return Object.prototype.hasOwnProperty.call(this.data, key);
+        return Object.hasOwn(this.data, key);
     }
 
     getId() {
