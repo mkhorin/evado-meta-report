@@ -31,8 +31,8 @@ module.exports = class Title extends Base {
             await token.resolve(models);
         }
         for (const model of models) {
+            const {tokenValues} = model.header;
             let result = this._staticParts[0];
-            let tokenValues = model.header.tokenValues;
             for (let i = 0; i < tokenValues.length; ++i) {
                 result = `${result}${tokenValues[i]}${this._staticParts[i + 1]}`;
             }

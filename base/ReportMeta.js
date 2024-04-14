@@ -55,7 +55,7 @@ module.exports = class ReportMeta extends Base {
     }
 
     createReport (data) {
-        const name = data.name;
+        const {name} = data;
         if (this.getReport(name)) {
             return this.log('error', `Report already exists: ${name}`);
         }
